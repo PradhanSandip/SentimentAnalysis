@@ -6,7 +6,7 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 import threading
 data = ProcessData("reviews.csv")
 reviews = data.get_reviews()
-#nltk.download(["maxent_ne_chunker","words", "punkt", "averaged_perceptron_tagger"])
+nltk.download(["maxent_ne_chunker","words", "punkt", "averaged_perceptron_tagger","vader_lexicon"])
 '''Hutto, C.J. & Gilbert, Eric. (2015). VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text. Proceedings of the 8th International Conference on Weblogs and Social Media, ICWSM 2014. '''
 ################################################################################################### VADER APPROACH #######################################################################################################
 #SIMPLE RULE BASED APPROACH, THAT SCORES EACH WORD FROM NEGATIVE, NEUTRAL AND POSITIVE
