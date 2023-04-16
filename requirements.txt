@@ -2,3 +2,9 @@ pandas
 matplotlib
 nltk
 numpy
+transformers
+wordcloud
+scipy
+torch 
+textblob
+
