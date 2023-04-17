@@ -29,5 +29,5 @@ class ProcessData:
     def get(self, index):
         return self.data.loc[index]
     #function that returns data frame of the csv file
-    def getDataFrame(self):
+    def get_data_frame(self):
         return self.data

@@ -6,7 +6,7 @@ from wordcloud import WordCloud
 
 
 #read csv file, with tab spaced columns. add columns names to the data ["id","movie_id","review"]
-data = ProcessData("reviews.csv").getDataFrame()
+data = ProcessData("reviews.csv").get_data_frame()
 # Group data by movie ID
 reviews_by_movie = data.groupby('movie_id')['review'].apply(list).to_dict()
 
