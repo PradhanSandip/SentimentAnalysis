@@ -7,4 +7,4 @@ wordcloud
 scipy
 torch 
 textblob
-
+tensorflow

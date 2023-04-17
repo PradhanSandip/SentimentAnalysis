@@ -2,7 +2,7 @@ import pandas as pd
 '''############################ This class is responsible for reading csv file and process the data it contains ###############################################'''
 class ProcessData:
     #constructor, takes the csv file location
-    def __init__(self, csv_file):
+    def __init__(self, csv_file, set_col):
         #storing the file location in a global variable
         self.csv_file = csv_file
         #reading the csv file and storing the content in a variable. 
@@ -12,9 +12,10 @@ class ProcessData:
         #[hearder is used to inform csv parser if the file contains column names]
         self.data = pd.read_csv(csv_file,sep='\t', lineterminator='\n', header=None)
         #defining column names as the csv file does not have any column names.
-        columns = ["id","movie_id","review"]
-        #setting the column names
-        self.data.columns = columns
+        if(set_col):
+            columns = ["id","movie_id","review"]
+            #setting the column names
+            self.data.columns = columns
 
     #function that returns all the review 
     def get_reviews(self):
