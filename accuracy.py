@@ -73,7 +73,7 @@ class Accuracy:
         plt.show()
         
 
-
+    
 
 
 

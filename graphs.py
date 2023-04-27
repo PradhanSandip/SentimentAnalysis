@@ -4,7 +4,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 from ast import literal_eval
 from accuracy import Accuracy
-'''#################################### This class is used to generate plots/graphs for analysis ##########################################'''
+#######################################
+# Author: Sandip Pradhan              #
+#######################################
+
+
+'''#################################### This file is used to generate plots/graphs for analysis ##########################################'''
 
 
 
@@ -32,7 +37,7 @@ def review_info():
     #draw the chart
     plt.show()
 
-review_info()
+# review_info()
 
 def review_per_movie():
     total = roberta_reviews["total"]
@@ -40,7 +45,7 @@ def review_per_movie():
     plt.yticks(np.arange(0,980,20))
     plt.show()    
 
-review_per_movie()
+# review_per_movie()
 
 #plot average review per movie
 def average_review():
@@ -51,7 +56,7 @@ def average_review():
     plt.gca().set_yticks(np.arange(0,20,1))
     plt.show()
 
-average_review()
+# average_review()
 
 #draw word cloud of negative review of top reviewed movie
 def negative_word_cloud(pos):
@@ -75,10 +80,41 @@ def positive_word_cloud(pos):
         
     generate_from_review("".join(positive_reviews), f'Positive word cloud of {row["Unnamed: 0"]}')
 
-positive_word_cloud(0)
+# positive_word_cloud(0)
 
-def plot_accuracy():
+'''This function plots the accuracy compairing two sentiment analysis approach'''
+def plot_sentiment_accuracy():
     a = Accuracy()
     a.plot_result()
 
-plot_accuracy()
+'''This function draws a pie chart of sentiment score of all reviews, there are two charts one for vader and one for roberta'''
+def sentiment_pie_chart():
+        #load vader csv
+        vader_data = ProcessData("generated_vader.csv", False).get_data_frame()
+        #load roberta csv
+        roberta_data = ProcessData("generated_roberta.csv", False).get_data_frame()
+        #calculate vader sentement score
+        vader_pos = pd.to_numeric(vader_data[1][1:]).sum()
+        vader_neu = pd.to_numeric(vader_data[2][1:]).sum()
+        vader_neg = pd.to_numeric(vader_data[3][1:]).sum()
+        #calculate roberta sentiment score
+        roberta_pos = pd.to_numeric(roberta_data[1][1:]).sum()
+        roberta_neu = pd.to_numeric(roberta_data[2][1:]).sum()
+        roberta_neg = pd.to_numeric(roberta_data[3][1:]).sum()
+        #creating 2 axis
+        fig, (axis1,axis2) = plt.subplots(1,2)
+        #pie chart label
+        labels = ["positive", "negative", "neutral"]
+        #vader pie chart
+        axis1.pie([vader_pos, vader_neg, vader_neu], labels = labels)
+        axis1.set_title("Vader sentiment")
+        #roberta pie chart
+        axis2.pie([roberta_pos, roberta_neg, roberta_neu], labels = labels)
+        axis2.set_title("Roberta sentiment")
+        #figure title
+        fig.suptitle("Sentiment score of all reviews", fontsize=20)
+        #show plot
+        plt.show() 
+
+
+sentiment_pie_chart()
