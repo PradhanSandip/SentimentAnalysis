@@ -3,15 +3,16 @@ from ProcessData import ProcessData
 import matplotlib.pyplot as plt
 import numpy as np
 from ast import literal_eval
+from accuracy import Accuracy
 '''#################################### This class is used to generate plots/graphs for analysis ##########################################'''
 
 
 
 
 #load the review csv file
-reviews = ProcessData("reviews.csv")
+reviews = ProcessData("reviews.csv",True)
 #load the roberta_individual.csv
-roberta_reviews = pd.read_csv("roberta_individual.csv", sep="\t", lineterminator="\n")
+roberta_reviews = pd.read_csv("generated_roberta.csv", sep="\t", lineterminator="\n")
 #set plot style
 plt.style.use('fivethirtyeight')
 #function that displays total number of reviews and total number of unique movie in the reviews
@@ -31,7 +32,7 @@ def review_info():
     #draw the chart
     plt.show()
 
-# review_info()
+review_info()
 
 def review_per_movie():
     total = roberta_reviews["total"]
@@ -39,7 +40,7 @@ def review_per_movie():
     plt.yticks(np.arange(0,980,20))
     plt.show()    
 
-#review_per_movie()
+review_per_movie()
 
 #plot average review per movie
 def average_review():
@@ -50,7 +51,7 @@ def average_review():
     plt.gca().set_yticks(np.arange(0,20,1))
     plt.show()
 
-#average_review()
+average_review()
 
 #draw word cloud of negative review of top reviewed movie
 def negative_word_cloud(pos):
@@ -76,3 +77,8 @@ def positive_word_cloud(pos):
 
 positive_word_cloud(0)
 
+def plot_accuracy():
+    a = Accuracy()
+    a.plot_result()
+
+plot_accuracy()

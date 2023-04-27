@@ -5,6 +5,9 @@ from scipy.special import softmax
 import threading
 from time import sleep
 import pandas as pd
+###############################
+# Author: Sandip Pradhan      #
+###############################
 '''------------------------This part of the code is responsible for loading the model and setting up the model for inference-------------------------------------------'''
 class Roberta:
     def __init__(self):
@@ -15,7 +18,7 @@ class Roberta:
         #loading model
         self.model = AutoModelForSequenceClassification.from_pretrained(self.MODEL, from_tf=True)
         #loading the reviews csv
-        self.data = ProcessData("reviews.csv")
+        self.data = ProcessData("reviews.csv", True)
         #getting all the reviews
         self.reviews = self.data.get_reviews()
         #defining labels and its corrosponding menaing
@@ -182,9 +185,9 @@ class Roberta:
                 #generate dataframe using temp variable which holds all the generated results, and flip the axis
                 self.temp = pd.DataFrame(self.temp).T
                 #save the datafrave to csv file, with columns ["positive", "neutral", "negative", "total", "positive_list", "neutral_list", "negative_list"]
-                self.temp.to_csv("roberta_individual.csv", sep="\t", header=["positive", "neutral", "negative", "total", "positive_list", "neutral_list", "negative_list"])
+                self.temp.to_csv("generated_roberta.csv", sep="\t", header=["positive", "neutral", "negative", "total", "positive_list", "neutral_list", "negative_list"])
                 #update user
-                print("Generated csv roberta_individual.csv")
+                print("Generated csv generated_roberta.csv")
 
 if __name__ == "__main__":
     #create class object
