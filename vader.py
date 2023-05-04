@@ -20,6 +20,7 @@ class Vader:
         #keep track of sentiment analysis progress, where progress is the review number out of 10000.
         self.progress = 0
         self.show_progress = True    
+        self.test = []
 
     '''Hutto, C.J. & Gilbert, Eric. (2015). VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text. Proceedings of the 8th International Conference on Weblogs and Social Media, ICWSM 2014. '''
 ################################################################################################### VADER APPROACH #######################################################################################################
@@ -28,24 +29,24 @@ class Vader:
     def vader(self,review):
         self.progress
         self.progress += 1
-        if(type(review) != type(float('nan'))):
-            #replace quote unicode with actual quote marks
-            review = review.replace("&quot;",'"')
-            # tokenize = word_tokenize(review)
-            # speach_tag = pos_tag(tokenize)
-            # chunked = ne_chunk(speach_tag)
-            intensity_analyzer = SentimentIntensityAnalyzer()
-            result = intensity_analyzer.polarity_scores(review)
-            #get the highest score result between positive, neutral and negative
-            highest = None
-            tag = None
-            for tag in list(result)[3:]:
-                if(result[tag] > 0):
-                    return ("pos", result[tag])
-                elif(result[tag] < 0):
-                    return ("neg", result[tag])
-                elif(result[tag] == 0):
-                    return ("neu", result[tag])
+        # if(type(review) != type(float('nan'))):
+        #replace quote unicode with actual quote marks
+        review = review.replace("&quot;",'"')
+        # tokenize = word_tokenize(review)
+        # speach_tag = pos_tag(tokenize)
+        # chunked = ne_chunk(speach_tag)
+        intensity_analyzer = SentimentIntensityAnalyzer()
+        result = intensity_analyzer.polarity_scores(review)
+        #get the highest score result between positive, neutral and negative
+        highest = None
+        tag = None
+        for tag in list(result)[3:]:
+            if(result[tag] > 0):
+                return ("pos", result[tag])
+            elif(result[tag] < 0):
+                return ("neg", result[tag])
+            elif(result[tag] == 0):
+                return ("neu", result[tag])
 
     ''' This function is passed to a thread to run, main aim of this function to run vader function defined above in a batch'''
     def process(self,pos1,pos2):
@@ -53,6 +54,7 @@ class Vader:
         ids = self.data.get_movie_ids()
         #for each review in a range
         for index, review in enumerate(self.data.get_reviews()[pos1:pos2]):
+            self.test.append(pos1+index)
             #if review is not empty
             if(not type(review) is type(float('nan'))):
                 #calculate vader compund score
@@ -66,42 +68,42 @@ class Vader:
                     total:          total number of review of a movie
                 '''
                 #if the movie id does not exist in the temp dictionary
-                if(ids[index] not in self.temp):
+                if(ids[pos1+index] not in self.temp):
                     #if review is positive
                     if(vader_sentiment[0] == "pos"):
                         #add the review as positive
-                        self.temp[ids[index]] = [1,0,0,1]
+                        self.temp[ids[pos1+index]] = [1,0,0,1]
                     #if review is neutral
                     elif(vader_sentiment[0] == "neu"):
                         #add the review as neutral
-                        self.temp[ids[index]] = [0,1,0,1]
+                        self.temp[ids[pos1+index]] = [0,1,0,1]
                     #if the review is negative
                     elif(vader_sentiment[0] == "neg"):
                         #add the movie as negative
-                        self.temp[ids[index]] = [0,0,1,1]
+                        self.temp[ids[pos1+index]] = [0,0,1,1]
                 #if the movie id is in temp dictionary
                 else:
                     #if the review is positive
                     if(vader_sentiment[0] == "pos"):
                         #increment positive column
-                        self.temp[ids[index]][0] = self.temp[ids[index]][0] + 1
+                        self.temp[ids[pos1+index]][0] = self.temp[ids[pos1+index]][0] + 1
                         #increment total by 1
-                        self.temp[ids[index]][3] = self.temp[ids[index]][3] + 1
+                        self.temp[ids[pos1+index]][3] = self.temp[ids[pos1+index]][3] + 1
                     #if the review is neutral
                     elif(vader_sentiment[0] == "neu"):
                          #increment neutral column
-                        self.temp[ids[index]][1] = self.temp[ids[index]][1] + 1
+                        self.temp[ids[pos1+index]][1] = self.temp[ids[pos1+index]][1] + 1
                         #increment total by 1
-                        self.temp[ids[index]][3] = self.temp[ids[index]][3] + 1
+                        self.temp[ids[pos1+index]][3] = self.temp[ids[pos1+index]][3] + 1
                     #if the review is negative
                     elif(vader_sentiment[0] == "neg"):
                          #increment negative column
-                        self.temp[ids[index]][2] = self.temp[ids[index]][2] + 1
+                        self.temp[ids[pos1+index]][2] = self.temp[ids[pos1+index]][2] + 1
                         #increment total by 1
-                        self.temp[ids[index]][3] = self.temp[ids[index]][3] + 1
+                        self.temp[ids[pos1+index]][3] = self.temp[ids[pos1+index]][3] + 1
                 # print(pos1+index)
             else:
-                print(type(review))
+                print(type(review), pos1+index)
     
     '''This function displays progress'''
     def print_p(self):
@@ -121,7 +123,7 @@ class Vader:
         '''Using 10 threads to process 10000 reviews, each thread will handle 1000 reviews'''
         threads = []
         #workload range
-        workload = [[0,999], [1000,1999], [2000, 2999], [3000, 3999], [4000, 4999], [5000, 5999], [6000,6999], [7000, 7999], [8000, 8999], [9000, 9999]]
+        workload = [[0,1000], [1000,2000], [2000, 3000], [3000, 4000], [4000, 5000], [5000, 6000], [6000,7000], [7000, 8000], [8000, 9000], [9000, 10000]]
         #for rach workload
         for i in range(10):
             #create a thread and run the process function
@@ -161,7 +163,11 @@ if __name__ == "__main__":
     vader = Vader()
     #display progress 
     vader.start()
-    
+    for y in range(0,9999):
+        if y not in vader.test:
+            print(y)
+
+    # print(vader.test)
 
 
 

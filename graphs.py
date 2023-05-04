@@ -87,6 +87,8 @@ def plot_sentiment_accuracy():
     a = Accuracy()
     a.plot_result()
 
+plot_sentiment_accuracy()
+
 '''This function draws a pie chart of sentiment score of all reviews, there are two charts one for vader and one for roberta'''
 def sentiment_pie_chart():
         #load vader csv

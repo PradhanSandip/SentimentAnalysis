@@ -154,7 +154,7 @@ class Roberta:
         #list of threads
         threads = []
         #workload defines which portion of the review each thread will handle, as there are 10000 reviewas workload is between 0 - 10000
-        workload = [[0,999], [1000,1999], [2000, 2999], [3000, 3999], [4000, 4999], [5000, 5999], [6000,6999], [7000, 7999], [8000, 8999], [9000, 9999]]
+        workload = [[0,1000], [1000,2000], [2000, 3000], [3000, 4000], [4000, 5000], [5000, 6000], [6000,7000], [7000, 8000], [8000, 9000], [9000, 10000]]
         #looping 100 time to create 10 threads
         for i in range(10):
             #create thread and run the process function, with parameter workload[i] ( for example workload[0] is [0,999])
@@ -192,6 +192,10 @@ class Roberta:
 if __name__ == "__main__":
     #create class object
     roberta = Roberta()
+    print('''################################################################
+             #      Processing reviews using deep learning model            #
+             #      This will take some time                                #
+             #################################################################''')
     #display progress 
     roberta.display_progress()
     #run inference and save the result in roberta_individual.csv
