@@ -28,7 +28,7 @@ class Vader:
     def vader(self,review):
         self.progress
         self.progress += 1
-        if(not type(review) is type(float('nan'))):
+        if(type(review) != type(float('nan'))):
             #replace quote unicode with actual quote marks
             review = review.replace("&quot;",'"')
             # tokenize = word_tokenize(review)
