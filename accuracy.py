@@ -73,7 +73,8 @@ class Accuracy:
         plt.show()
         
 
-    
+a = Accuracy()
+a.plot_result()   
 
 
 
