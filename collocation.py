@@ -4,7 +4,9 @@ from nltk.corpus import stopwords
 from nltk import word_tokenize, pos_tag
 from nltk.collocations import BigramCollocationFinder, BigramAssocMeasures, TrigramCollocationFinder, TrigramAssocMeasures
 from ProcessData import ProcessData
-
+######################################
+# Author: Miriam Carvlho             #
+######################################
 '''This class is responsible for extracting important collocation from positive and negative reviews'''
 
 class Collocations:
@@ -153,3 +155,4 @@ class Collocations:
         for trigram in self.negative_trigrams_pos_tag: print(trigram, end="\n")
 c =Collocations()
 c.extract_bigrams()
+c.extract_trigrams()

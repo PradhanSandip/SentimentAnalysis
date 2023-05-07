@@ -2,7 +2,9 @@ import pandas as pd
 from ProcessData import ProcessData
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-
+#################################
+# Author: Miriam Carvlho        #
+#################################
 
 
 #read csv file, with tab spaced columns. add columns names to the data ["id","movie_id","review"]

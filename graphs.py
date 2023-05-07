@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from ast import literal_eval
 from accuracy import Accuracy
-#######################################
-# Author: Sandip Pradhan              #
-#######################################
+##################################################
+# Author: Sandip Pradhan & Miriam Carvlho        #
+##################################################
 
 
 '''#################################### This file is used to generate plots/graphs for analysis ##########################################'''
@@ -106,12 +106,13 @@ def sentiment_pie_chart():
         #creating 2 axis
         fig, (axis1,axis2) = plt.subplots(1,2)
         #pie chart label
-        labels = ["positive", "negative", "neutral"]
+        vader_labels = [f"positive ({vader_pos})", f"negative ({vader_neg})", f"neutral ({vader_neu})"]
+        roberta_labels = [f"positive ({roberta_pos})", f"negative ({roberta_neg})", f"neutral ({roberta_neu})"]
         #vader pie chart
-        axis1.pie([vader_pos, vader_neg, vader_neu], labels = labels)
+        axis1.pie([vader_pos, vader_neg, vader_neu], labels = vader_labels)
         axis1.set_title("Vader sentiment")
         #roberta pie chart
-        axis2.pie([roberta_pos, roberta_neg, roberta_neu], labels = labels)
+        axis2.pie([roberta_pos, roberta_neg, roberta_neu], labels = roberta_labels)
         axis2.set_title("Roberta sentiment")
         #figure title
         fig.suptitle("Sentiment score of all reviews", fontsize=20)

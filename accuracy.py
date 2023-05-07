@@ -14,6 +14,10 @@ class Accuracy:
         self.vader_accuracy_score = 0
         self.vader_plot = []
         self.model_plot = []
+        #store wrong sentiment for depp learning model
+        self.model_wrong_prediction = []
+        #store wrong sentiment for vader 
+        self.vader_wrong_prediction = []
         self.model_accuracy("review_labeled.csv")
         self.vader_accuracy("review_labeled.csv")
         
@@ -38,6 +42,7 @@ class Accuracy:
                 self.model_plot.append(self.model_accuracy_score)
             else:
                 self.model_plot.append(self.model_accuracy_score)
+                self.model_wrong_prediction.append(review+ "\t" + output[0])
 
         #return the result in %
         return (self.model_accuracy_score/len(reviews))*100
@@ -63,18 +68,20 @@ class Accuracy:
                 self.vader_plot.append(self.vader_accuracy_score)
             else:
                 self.vader_plot.append(self.vader_accuracy_score)
+                self.vader_wrong_prediction.append(review + "\t"+output[0])
         #return the result in %
         return (self.vader_accuracy_score/len(reviews))*100
 
     def plot_result(self):
         plt.plot(self.model_plot,label=f"Roberta accuracy {self.model_accuracy_score}%")
         plt.plot(self.vader_plot,label=f"Vader accuracy {self.vader_accuracy_score}%")
+        plt.xlabel("Number of reviews")
+        plt.ylabel("Accuracy %")
         plt.legend()
         plt.show()
         
 
-a = Accuracy()
-a.plot_result()   
+
 
 
 

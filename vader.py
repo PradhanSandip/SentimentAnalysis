@@ -6,9 +6,9 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import pandas as pd
 import numpy as np
 import threading
-###########################
-# Author: Sandip Pradhan  #
-###########################
+############################################
+# Author: Sandip Pradhan & Miriam Carvlho  #
+############################################
 class Vader:
     def __init__(self):
         self.data = ProcessData("reviews.csv",True)
